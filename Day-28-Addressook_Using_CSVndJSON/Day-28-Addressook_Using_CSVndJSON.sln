@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32414.318
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day-28-Addressook_Using_CSVndJSON", "Day-28-Addressook_Using_CSVndJSON.csproj", "{B0E9B9D8-351C-4F62-9A77-141DFB22D735}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B0E9B9D8-351C-4F62-9A77-141DFB22D735}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0E9B9D8-351C-4F62-9A77-141DFB22D735}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0E9B9D8-351C-4F62-9A77-141DFB22D735}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0E9B9D8-351C-4F62-9A77-141DFB22D735}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {28184763-C651-4AA2-B99A-1B4672E7073F}
+	EndGlobalSection
+EndGlobal
