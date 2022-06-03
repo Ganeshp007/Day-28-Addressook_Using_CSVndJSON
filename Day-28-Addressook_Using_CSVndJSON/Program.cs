@@ -7,7 +7,8 @@ AddressBook contact = new AddressBook();  //creating obj of AddressBook class to
 bool check = true;
 while (check)
 {
-    Console.Write("\nChooce Operation : \n1.Create AddressBooks\n2.Display AddressBook Contact\n3.Add New Contact to AddressBook\n4.Search Contact By CityName and StateName\n5.Delete Contact\n6.Add Data To CSV File\n7.Read Data From CSV File\n8.Exit\n\n>> Enter your Choice :- ");
+    Console.Write("\nChooce Operation : \n1.Create AddressBooks\n2.Display AddressBook Contact\n3.Add New Contact to AddressBook\n4.Search Contact By CityName and StateName\n5.Delete Contact" +
+        "\n6.Add Data To CSV File\n7.Read Data From CSV File\n8.Add Data TO Json File\n9.Read Data of AddressBook from Json File\n10.Exit\n>> Enter your Choice :- ");
     int option = Convert.ToInt32(Console.ReadLine());
     switch (option)
     {
@@ -55,6 +56,17 @@ while (check)
             break;
 
         case 8:
+            Console.WriteLine("\n>> Write Data Of AddressBook TO Json File");
+            contact.WriteAddressBookData_TO_JsonFile();
+            break;
+
+
+        case 9:
+            Console.WriteLine("\n>> Read Data Of AddressBook from Json File");
+            contact.ReadAddressBookData_From_JSonFile();
+            break;
+
+        case 10:
             check = false;
             break;
 

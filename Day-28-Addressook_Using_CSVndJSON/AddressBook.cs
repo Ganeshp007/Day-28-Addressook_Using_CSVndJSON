@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using Newtonsoft.Json;
 
 namespace Day_28_Addressook_Using_CSVndJSON
 {
@@ -281,16 +282,16 @@ namespace Day_28_Addressook_Using_CSVndJSON
         public void WriteAddressBookData_TO_CSVFile()
         {
             string CSVFile_Containing_AddressBook_Data = @"D:\Day-28-Addressook_Using_CSVndJSON\Day-28-Addressook_Using_CSVndJSON\Utility\AddressBookData_To_CSVFile.csv";
-          
+
             using (var Writer = new StreamWriter(CSVFile_Containing_AddressBook_Data))
-            {   
+            {
                 Console.WriteLine("\nWriting Data of AddressBooks To CSV File...");
                 Writer.WriteLine("FirstName,LastName,Address,City,State,Zip,PhoneNumber,Email");
                 foreach (var element in Book)
                 {
                     foreach (var data in element.Value)
-                    {   
-                        Writer.WriteLine(data.FirstName + "," + data.LastName + ","+ data.Address + "," + data.City + "," + data.State + "," + data.Zip + "," + data.PhoneNumber + "," + data.Email);
+                    {
+                        Writer.WriteLine(data.FirstName + "," + data.LastName + "," + data.Address + "," + data.City + "," + data.State + "," + data.Zip + "," + data.PhoneNumber + "," + data.Email);
                     }
 
                 }
@@ -302,15 +303,20 @@ namespace Day_28_Addressook_Using_CSVndJSON
         public void ReadAddressBookData_From_CSVFile()
         {
             string CSVFile_Containing_AddressBook_Data = @"D:\Day-28-Addressook_Using_CSVndJSON\Day-28-Addressook_Using_CSVndJSON\Utility\AddressBookData_To_CSVFile.csv";
-           
+
             using (var Reader = new StreamReader(CSVFile_Containing_AddressBook_Data))  //creating obj of stream writer class to read data
             using (var ReadData_From_CSV = new CsvReader(Reader, CultureInfo.InvariantCulture)) //creating obj of csvReader class to read data from csv file with the help of streaReader obj
             {
                 int count = 0;
                 Console.WriteLine("\nReading Data of AddressBooks From CSV File...");
                 var records = ReadData_From_CSV.GetRecords<Contact>().ToList(); // Getting all reaocrd from csv file and returning it as a List
+                if (records.Count == 0)
+                {
+                    Console.WriteLine("\n> You don't have any data in CSV File to read!!");
+                    return;
+                }
                 records.Sort((x, y) => x.FirstName.CompareTo(y.FirstName)   //sort the records List to print
-                                    + x.LastName.CompareTo(y.LastName));
+                                   + x.LastName.CompareTo(y.LastName));
                 Console.Write("\n*** Records Of AddressBook System From CSV File ***\n");
                 foreach (var addressData in records)
                 {
@@ -326,8 +332,69 @@ namespace Day_28_Addressook_Using_CSVndJSON
 
                 }
                 Console.WriteLine("\n------------------------------------------------");
+
             }
         }
 
+        // >> UC15 : UC15_Write AddressBook Data To Json File using serialization
+        public void WriteAddressBookData_TO_JsonFile()
+        {
+            string importFilePath = @"D:\Day-28-Addressook_Using_CSVndJSON\Day-28-Addressook_Using_CSVndJSON\Utility\AddressBookData_To_CSVFile.csv";
+            string JsonFile_Containing_AddressBook_Data = @"D:\Day-28-Addressook_Using_CSVndJSON\Day-28-Addressook_Using_CSVndJSON\AddressDataToJasonFile.json";
+            using (var reader = new StreamReader(importFilePath))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            {
+                var records = csv.GetRecords<Contact>().ToList();
+                if (records.Count == 0)
+                {
+                    Console.WriteLine("\n> You don't have any data in CSV File to write it to Json FIle!!");
+                    return;
+                }
+                Console.WriteLine("\n>> Writing Data of AddressBooks To Json File...");
+                JsonSerializer serializer = new JsonSerializer();
+                using (StreamWriter sw = new StreamWriter(JsonFile_Containing_AddressBook_Data))
+                using (JsonWriter writer = new JsonTextWriter(sw))
+                {   
+                    serializer.Serialize(writer, records);
+                    
+                }
+               
+                Console.WriteLine("\n>> All AddressBooks Data are stored in Json File Successfully...");
+            }
+        }
+
+        // >> UC15 : UC15_Read AddressBook Data From Json File using Deserialization
+        public void ReadAddressBookData_From_JSonFile()
+        {
+            string JsonFile_Containing_AddressBook_Data = @"D:\Day-28-Addressook_Using_CSVndJSON\Day-28-Addressook_Using_CSVndJSON\AddressDataToJasonFile.json";
+            Console.WriteLine("\n> Reading Data of AddressBook System from Json File...");
+            Console.WriteLine("\n**** Data Of AddressBook From Json File ****");
+            using (StreamReader reader = new StreamReader(JsonFile_Containing_AddressBook_Data))
+            {
+                var jsonRead = reader.ReadToEnd();
+                if(jsonRead == "")
+                {
+                    Console.WriteLine("\n> You don't have any data in Json File to read!!");
+                    return;
+                }
+                List<Contact> JsonData = JsonConvert.DeserializeObject<List<Contact>>(jsonRead);
+                foreach (var contact in JsonData)
+                {
+                    Console.Write("\nFirst Name :- " + contact.FirstName);
+                    Console.Write("\nLast Name :- " + contact.LastName);
+                    Console.Write("\nAddress :- " + contact.Address);
+                    Console.Write("\nCity :- " + contact.City);
+                    Console.Write("\nState :- " + contact.State);
+                    Console.Write("\nZip :- " + contact.Zip);
+                    Console.Write("\nPhone Number :- " + contact.PhoneNumber);
+                    Console.Write("\nEmail ID:- " + contact.Email);
+                    Console.WriteLine();
+                }
+            }
+            Console.WriteLine("\n-------------------------------------------------------------------");
+
+        }
     }
+
+    
 }
